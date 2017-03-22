@@ -1,0 +1,47 @@
+---
+- hosts: wpserver
+  remote_user: ansibleuser
+  become: yes
+  become_method: sudo
+
+  vars: 
+    LOCAL_HOSTNAME: 'wp'
+    LOCAL_DOMAIN_NAME: 'wptest.com'
+
+  tasks:
+    # Checks and removed the existing occurences of <IP hostname FQDN> from /etc/hosts
+    - name: Remove occurences of the existing IP
+      lineinfile: dest=/etc/hosts
+                  regexp='{{ hostvars[item].ansible_default_ipv4.address }}'
+                  state=absent
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['wpserver'] }}"
+
+    # Adds the IP in the format  <IP hostname FQDN> to /etc/hosts
+    - name: Add the IP and hostname to the hosts file
+      lineinfile: dest=/etc/hosts
+                  regexp='.*{{ item }}$'
+                  line="{{ hostvars[item].ansible_default_ipv4.address }} {{ LOCAL_HOSTNAME }} {{ LOCAL_HOSTNAME }}.{{ LOCAL_DOMAIN_NAME }}"
+                  state=present
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['wpserver'] }}"
+
+    # To remove any existing entries for HOSTNAME= from the /etc/sysconfig/network
+    - name: Remove HOSTNAME occurences from /etc/sysconfig/network
+      lineinfile: dest=/etc/sysconfig/network
+                  regexp='^HOSTNAME'
+                  state=absent
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['wpserver'] }}"
+
+    - name: Add new HOSTNAME to /etc/sysconfig/network
+      lineinfile: dest=/etc/sysconfig/network
+                  regexp='^HOSTNAME='
+                  line="HOSTNAME={{ LOCAL_HOSTNAME }}.{{ LOCAL_DOMAIN_NAME }}"
+                  state=present
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['wpserver'] }}"
+
+    # Setting the hostname using Ansible
+    - name: Set up the hostname
+      hostname: name={{ LOCAL_HOSTNAME }}.{{ LOCAL_DOMAIN_NAME }}
