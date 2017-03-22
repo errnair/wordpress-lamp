@@ -1,0 +1,35 @@
+---
+# Hosts are defined in the "hosts" file (Default: /etc/ansible/hosts)
+- hosts: wpserver
+  # The commands/tasks below need to be performed as this user (on the remote server)
+  remote_user: root
+
+  vars: 
+    # The user to be created
+    NEW_SUDO_USER: 'ansibleuser'
+
+  tasks:
+    - name: Create a new secondary, non-root, sudo user
+      # "password" was generated using python's passlib
+      user: name={{ NEW_SUDO_USER }}
+            password=''
+            shell='/bin/bash'
+
+    # Add current user's (on the main ansible server) SSH public key to the remote server
+    - name: Add remote authorized key for passwordless auth
+      authorized_key: user={{ NEW_SUDO_USER }} 
+                      key="{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+    # To add the remote user that we created (above) to the remote server's sudoers list
+    - name: Add this user to sudoers
+      lineinfile: dest=/etc/sudoers
+                  regexp="{{ NEW_SUDO_USER }} ALL"
+                  line="{{ NEW_SUDO_USER }} ALL=(ALL) ALL"
+                  state=present
+
+    # So that password isn't asked for "become_method: sudo" and to avoid using "--ask-become-pass"
+    - name: Add sudo user with nopasswd privilege
+      lineinfile: dest=/etc/sudoers
+                  regexp="{{ NEW_SUDO_USER }} ALL"
+                  line="{{ NEW_SUDO_USER }} ALL=(ALL) NOPASSWD:ALL"
+                  state=present
