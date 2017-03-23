@@ -12,7 +12,7 @@
     - name: Create a new secondary, non-root, sudo user
       # "password" was generated using python's passlib
       user: name={{ NEW_SUDO_USER }}
-            password=''
+            password='$6$rounds=656000$2p94Hr6L3U6YNMYj$7GZvyQtC83hM/ruS9sm9Hl3Gq0ngLrfX2YwiqbG6zOzLxZ.UPUDDFCUvy3be90i6z3I2UbV9mIMSQ/PIwwj650'
             shell='/bin/bash'
 
     # Add current user's (on the main ansible server) SSH public key to the remote server
