@@ -4,3 +4,4 @@
 ansible-playbook initial_setup/main.yml
 
 # Start main installation process
+ansible-playbook main.yml

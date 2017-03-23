@@ -1,0 +1,3 @@
+---
+- include: update_packages.yml
+- include: secure_ssh.yml

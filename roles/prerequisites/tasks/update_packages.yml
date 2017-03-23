@@ -1,0 +1,18 @@
+---
+    # Install the requisite devel packages
+    - name: Install core 'devel' packages
+      yum: name='@Development tools'
+           update_cache=yes
+           state=latest
+
+    # Install policycoreutils-python (in order to make SELinux changes)
+    - name: Install policycoreutils-python
+      yum: name=policycoreutils-python
+           update_cache=yes
+           state=latest
+
+    # Update all the existing yum repo packages
+    - name: Update yum
+      yum: name=*
+           update_cache=yes
+           state=latest
