@@ -1,0 +1,22 @@
+---
+    # Install Mariadb and the mysql-related packages
+    - name: Install MariaDB and it's dependencies
+      yum: name={{ item }}
+           update_cache=yes
+           state=latest
+      with_items:
+        - mariadb
+        - mariadb-server
+        - mariadb-devel
+        - MySQL-python
+        - php-mysql
+
+     # Enable the MariaDB service
+    - name: Enable MariaDB
+      systemd: name=mariadb
+               state=started
+               enabled=yes
+
+      notify:
+        - open_mariadb_port
+        - restart_mariadb
