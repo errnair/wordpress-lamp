@@ -5,6 +5,6 @@
   become_method: sudo
 
   roles:
-    #- prerequisites
-    #- apache
+    - prerequisites
+    - apache
     - mariadb
