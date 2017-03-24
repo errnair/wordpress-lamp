@@ -1,0 +1,38 @@
+---
+   # Install Apache (httpd)
+   - name: Install httpd on the server
+     yum: name=httpd
+          update_cache=yes
+          state=latest
+
+   # Enable the httpd service
+   - name: Enable the apache service
+     systemd: name=httpd
+              state=started
+              enabled=yes
+
+     notify:
+       - open_http_port
+       - open_https_port
+       - restart_httpd
+
+   # Check if the Apache config file
+   - name: Check if the httpd config file exists
+     stat: path=/etc/httpd/conf/httpd.conf
+     register: conf_exists
+
+   # If the conf file exists, backup the file
+   - name: Backup if the existing httpd.conf
+     copy: remote_src=True
+           src=/etc/httpd/conf/httpd.conf
+           dest=/etc/httpd/conf/httpd.conf.orig
+     when: conf_exists.stat.exists
+
+   # Copy the conf file from the 'conf' directory to the remote server
+   #- name: Copy our httpd.conf to the remote server
+   #  copy: src=conf/httpd.conf
+   #        dest=/etc/httpd/conf/httpd.conf
+   #        owner=root
+   #        group=root
+   #        mode=0644
+   #        backup=yes

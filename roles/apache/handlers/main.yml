@@ -1,0 +1,17 @@
+    # Open the http and https port (80 and 443)
+    - name: open_http_port
+      firewalld: service=http
+                 permanent=true
+                 state=enabled
+                 immediate=yes
+
+    - name: open_https_port
+      firewalld: service=https
+                 permanent=true
+                 state=enabled
+                 immediate=true
+
+    # Restart the httpd service
+    - name: restart_httpd
+      service: name=httpd
+               state=restarted

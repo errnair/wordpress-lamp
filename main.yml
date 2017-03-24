@@ -5,4 +5,5 @@
   become_method: sudo
 
   roles:
-    - prerequisites
+    #- prerequisites
+    - apache
