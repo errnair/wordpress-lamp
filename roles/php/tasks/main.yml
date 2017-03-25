@@ -1,0 +1,26 @@
+---
+    # Install PHP and all the necessary PHP modules
+    - name: Install PHP and other required modules
+      yum: name={{ item }}
+           update_cache=yes
+           state=latest
+      with_items:
+        - php
+        - php-cli
+        - php-common
+        - php-devel
+        - php-mbstring
+        - php-pdo
+        - php-pear
+        - php-mysql
+        - php-gd
+        - php-fpm
+        - php-xml
+
+    # Copy a test index.php file to the DocumentRoot
+    - name: Copying the test index file
+      copy: src=files/index.php
+            dest=/var/www/html
+            owner=root
+            group=root
+            mode=0644
