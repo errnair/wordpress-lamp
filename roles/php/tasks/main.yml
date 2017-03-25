@@ -17,10 +17,10 @@
         - php-fpm
         - php-xml
 
-    - name: Restart Apache
-      service: 
-        name: httpd
-        state: restarted
+    #- name: Restart Apache
+    #  service: 
+    #    name: httpd
+    #    state: restarted
 
     # Copy a test index.php file to the DocumentRoot
     - name: Copying the test index file
@@ -30,5 +30,5 @@
             group=root
             mode=0644
 
-      #notify:
-        #- restart_apache
+      notify:
+        - restart_apache

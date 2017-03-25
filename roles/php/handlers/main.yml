@@ -1,4 +1,5 @@
     # Restart the httpd service
     - name: restart_apache
-      service: name=httpd
-               state=restarted
+      service: 
+        name: httpd
+        state: restarted
