@@ -1,0 +1,36 @@
+---
+     - name: Download and install wp-cli from source
+       get_url: url={{ wp_cli_src }}
+                dest={{ wp_cli_bin }}
+                mode=0755
+
+     - name: Create Wordpress DB
+       mysql_db:
+         login_user={{ wp_root_dbuser }}
+         login_password={{ wp_root_dbpass }}
+         name={{ wp_dbname }}
+         state=present
+
+     - name: Create Wordpress DB user with grants
+       mysql_user:
+         login_user={{ wp_root_dbuser }}
+         login_password={{ wp_root_dbpass }}
+         name={{ wp_dbuser }}
+         password={{ wp_dbpass }}
+         priv={{ wp_dbname }}.*:ALL,GRANT
+         state=present
+
+     - name: Download Wordpress core files
+       get_url: 
+         url=https://wordpress.org/latest.tar.gz
+         dest={{ wp_root_loc }}/latest.tar.gz
+         mode=0644
+
+     - name: Extract Wordpress files
+       unarchive:
+         remote_src=yes
+         src={{ wp_root_loc }}/latest.tar.gz
+         dest={{ wp_root_loc }}
+
+     - name: Move the Wordpress files to the DocumentRoot
+       #command: wp core download --path={{ wp_root_loc }} --locale={{ wp_locale }} --url={{ wp_url }} --title={{ wp_title }} --admin_user={{ wp_adminuser }} --admin_password={{ wp_adminpass }} --admin_email={{ wp_adminmail }} --allow-root

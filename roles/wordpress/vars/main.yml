@@ -1,0 +1,16 @@
+---
+wp_cli_src: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+wp_cli_bin: /usr/local/bin/wp
+wp_root_loc: /var/www/html
+wp_root_dbuser: root
+wp_root_dbpass: testpass
+wp_adminuser: admin
+wp_adminpass: testpass123
+wp_adminmail: test@testwpwebsite.com
+wp_url: testwpwebsite.com
+wp_title: TestWebsite
+wp_dbname: wp_testdb
+wp_dbuser: wp_testuser
+wp_dbpass: testpass123
+wp_dbhost: localhost
+wp_locale: en_US
