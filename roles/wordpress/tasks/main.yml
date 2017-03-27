@@ -1,24 +1,24 @@
 ---
-     - name: Download and install wp-cli from source
-       get_url: url={{ wp_cli_src }}
-                dest={{ wp_cli_bin }}
-                mode=0755
+     #- name: Download and install wp-cli from source
+     #  get_url: url={{ wp_cli_src }}
+     #           dest={{ wp_cli_bin }}
+     #           mode=0755
 
-     - name: Create Wordpress DB
-       mysql_db:
-         login_user={{ wp_root_dbuser }}
-         login_password={{ wp_root_dbpass }}
-         name={{ wp_dbname }}
-         state=present
+     #- name: Create Wordpress DB
+     #  mysql_db:
+     #    login_user={{ wp_root_dbuser }}
+     #    login_password={{ wp_root_dbpass }}
+     #    name={{ wp_dbname }}
+     #    state=present
 
-     - name: Create Wordpress DB user with grants
-       mysql_user:
-         login_user={{ wp_root_dbuser }}
-         login_password={{ wp_root_dbpass }}
-         name={{ wp_dbuser }}
-         password={{ wp_dbpass }}
-         priv={{ wp_dbname }}.*:ALL,GRANT
-         state=present
+     #- name: Create Wordpress DB user with grants
+     #  mysql_user:
+     #    login_user={{ wp_root_dbuser }}
+     #    login_password={{ wp_root_dbpass }}
+     #    name={{ wp_dbuser }}
+     #    password={{ wp_dbpass }}
+     #    priv={{ wp_dbname }}.*:ALL,GRANT
+     #    state=present
 
      - name: Download Wordpress core files
        get_url: 
@@ -32,5 +32,24 @@
          src={{ wp_root_loc }}/latest.tar.gz
          dest={{ wp_root_loc }}
 
+     - name: Fix permissions
+       file:
+         path={{ wp_root_loc }}/wordpress
+         recurse=yes
+         owner=root
+         group=root
+
      - name: Move the Wordpress files to the DocumentRoot
-       #command: wp core download --path={{ wp_root_loc }} --locale={{ wp_locale }} --url={{ wp_url }} --title={{ wp_title }} --admin_user={{ wp_adminuser }} --admin_password={{ wp_adminpass }} --admin_email={{ wp_adminmail }} --allow-root
+       shell: cp -rf {{ wp_root_loc }}/wordpress/* {{ wp_root_loc }}
+
+     - name: Clean up unwanted files
+       file:
+         path={{ wp_root_loc }}/{{ item }}
+         state=absent
+       with_items:
+         - latest.tar.gz
+         - wordpress
+
+     - name: Update Wordpress and create WP tables
+       command: wp core config --path={{ wp_root_loc }} --locale={{ wp_locale }} --dbuser={{ wp_dbuser }} --dbpass={{ wp_dbpass }} --dbname={{ wp_dbname }} --dbhost={{ wp_dbhost }} --dbprefix=wp_ --force --allow-root
+       #command: wp core config --path={{ wp_root_loc }} --locale={{ wp_locale }} --url={{ wp_url }} --title={{ wp_title }} --admin_user={{ wp_adminuser }} --admin_password={{ wp_adminpass }} --admin_email={{ wp_adminmail }} --allow-root
