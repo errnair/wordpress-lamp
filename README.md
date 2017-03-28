@@ -1,4 +1,4 @@
-#### An Ansible playbook that installs a full LAMP stack and it's dependencies, then installs Wordpress
+### An Ansible playbook that installs a full LAMP stack and it's dependencies, then installs Wordpress
 
 This is primarily a LAMP installation (for CentOS), which installs Wordpress at the end of it.  
   
