@@ -2,7 +2,7 @@
 
 This is primarily a LAMP installation (for CentOS), which installs Wordpress at the end of it.  
   
-**Prerequisistes:** None. This was tested on a minimal CentOS-7 installation.  
+**Prerequisites:** None. This was tested on a minimal CentOS-7 installation.  
 **Installation:**
 - `sh start_install.sh
 
