@@ -1,24 +1,24 @@
 ---
-     #- name: Download and install wp-cli from source
-     #  get_url: url={{ wp_cli_src }}
-     #           dest={{ wp_cli_bin }}
-     #           mode=0755
+     - name: Download and install wp-cli from source
+       get_url: url={{ wp_cli_src }}
+                dest={{ wp_cli_bin }}
+                mode=0755
 
-     #- name: Create Wordpress DB
-     #  mysql_db:
-     #    login_user={{ wp_root_dbuser }}
-     #    login_password={{ wp_root_dbpass }}
-     #    name={{ wp_dbname }}
-     #    state=present
+     - name: Create Wordpress DB
+       mysql_db:
+         login_user={{ wp_root_dbuser }}
+         login_password={{ wp_root_dbpass }}
+         name={{ wp_dbname }}
+         state=present
 
-     #- name: Create Wordpress DB user with grants
-     #  mysql_user:
-     #    login_user={{ wp_root_dbuser }}
-     #    login_password={{ wp_root_dbpass }}
-     #    name={{ wp_dbuser }}
-     #    password={{ wp_dbpass }}
-     #    priv={{ wp_dbname }}.*:ALL,GRANT
-     #    state=present
+     - name: Create Wordpress DB user with grants
+       mysql_user:
+         login_user={{ wp_root_dbuser }}
+         login_password={{ wp_root_dbpass }}
+         name={{ wp_dbuser }}
+         password={{ wp_dbpass }}
+         priv={{ wp_dbname }}.*:ALL,GRANT
+         state=present
 
      - name: Download Wordpress core files
        get_url: 
