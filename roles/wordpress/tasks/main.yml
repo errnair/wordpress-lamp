@@ -50,6 +50,12 @@
          - latest.tar.gz
          - wordpress
 
-     - name: Update Wordpress and create WP tables
-       command: wp core config --path={{ wp_root_loc }} --locale={{ wp_locale }} --dbuser={{ wp_dbuser }} --dbpass={{ wp_dbpass }} --dbname={{ wp_dbname }} --dbhost={{ wp_dbhost }} --dbprefix=wp_ --force --allow-root
+     - name: Copy the wp-config.php file
+       copy:
+         src=files/wp-config.php
+         dest={{ wp_root_loc }}
+         owner=root
+         group=root
+         mode=0644
+
        #command: wp core config --path={{ wp_root_loc }} --locale={{ wp_locale }} --url={{ wp_url }} --title={{ wp_title }} --admin_user={{ wp_adminuser }} --admin_password={{ wp_adminpass }} --admin_email={{ wp_adminmail }} --allow-root
