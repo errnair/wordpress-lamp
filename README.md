@@ -26,3 +26,4 @@ This is primarily a LAMP installation (for CentOS), which installs Wordpress at 
 - the installation goes only so far as to extract Wordpress and add a `wp-config` file.
     - As it stands, once the playbook run is complete, access the remote server's IP on the browser and the Wordpress install process can be completed.
 - ***TODO:** Complete the addition of the `admin` user etc. via the Ansible playbook.*
+- ***TODO:** Add relevant sections for a Debian installation.*
