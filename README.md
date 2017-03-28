@@ -2,7 +2,9 @@
 
 This is primarily a LAMP installation (for CentOS), which installs Wordpress at the end of it.  
   
-**Prerequisites:** None. This was tested on a minimal CentOS-7 installation.  
+**Prerequisites:** 
+- SSH and key-based authentication from the ansible machine to the remote server. 
+- This was tested on a minimal CentOS-7 installation.  
 **Installation:**
 - `sh start_install.sh`
 
