@@ -57,5 +57,5 @@
          owner=root
          group=root
          mode=0644
-
+     
        #command: wp core config --path={{ wp_root_loc }} --locale={{ wp_locale }} --url={{ wp_url }} --title={{ wp_title }} --admin_user={{ wp_adminuser }} --admin_password={{ wp_adminpass }} --admin_email={{ wp_adminmail }} --allow-root
