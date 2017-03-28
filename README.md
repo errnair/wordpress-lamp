@@ -4,7 +4,7 @@ This is primarily a LAMP installation (for CentOS), which installs Wordpress at 
   
 **Prerequisites:** None. This was tested on a minimal CentOS-7 installation.  
 **Installation:**
-- `sh start_install.sh
+- `sh start_install.sh`
 
 **Steps:** Running this script completes these steps
 - First, the script runs the playbooks within the `initial_setup` directory.
