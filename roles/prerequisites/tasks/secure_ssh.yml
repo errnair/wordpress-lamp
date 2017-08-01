@@ -9,7 +9,6 @@
       copy: remote_src=True
             src=/etc/ssh/sshd_config
             dest=/etc/ssh/sshd_config.orig
-      when: config_status.stat.exists
 
     # Disable root logins
     - name: Change PermitRootLogin to 'no'
